@@ -1,0 +1,29 @@
+Реферальная система
+Абонент А
+Абонент Б
+
+Отправка приглашения:
+Абонент А может отправлять приглашения кому угодно из контактов
+Абонент А может отправлять не более 5 за сутки, и не более 30 приглашений за календарный месяц
+Абонент Б может принимать сколько угодно приглашений
+Если абонент Б отключил возможность приглашения, то уведомить абонента А
+Если абонент Б уже активировал инвайт, то вернуть соответствующий ответ
+Если абонент Б был ранее приглашен, но не успел активировать инвайт, то предыдущий инвайт становится не активным. Каждый новый инвайт заменяет предыдущий
+Абонент А может приглашать абонента Б только раз в сутки
+
+Invite/send/{numberA}/{numberB}
+Status = [ACTIVE, NOT_ACTIVE, ACCEPTED]
+Select * from subscribers where phone = numberA
+Select count(*) from invites where sender_subs_id = ?1 and start_date > {полночь}
+Select count(*) from invites where sender_subs_id = ?1 and start_date > {Первое число месяца, полночь}
+Select count(*) from invites where sender_subs_id = ?1 and receiver_subs_id = ?2 and start_date > {полночь}
+
+Принятие приглашения:
+Абонент Б регистрируется в приложении
+Проверяем, сущетствует ли абонент Б в сервисе
+Сервис проверяет был ли инвайт у абонента Б
+Select * from invites where receiver_subs_id = ?1 and sysdate between start_date and end_date
+Меняем статус на ACCEPTED
+
+Invite/receipt/{ numberB}
+
